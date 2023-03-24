@@ -60,9 +60,17 @@ const editTask = async (req, res) => {
 const getTodaysTask = async (req, res) => {
   try {
     const { userid } = req;
-    const date = Date.now();
+    const start = new Date();
+    start.setHours(0, 0, 0, 0);
+
+    const end = new Date();
+    end.setHours(23, 59, 59, 999);
+
     const data = await todoModal
-      .find({ by: userid })
+      .find({
+        by: userid,
+        updatedAt: { $gte: start, $lt: end },
+      })
       .populate("by", "name")
       .sort({ createdAt: -1 });
     return res.status(200).json({ success: true, data });
