@@ -84,13 +84,13 @@ const getPendingTask = async (req, res) => {
   try {
     const { userid } = req;
     const skip = Number(req.query.skip) || 0;
+    const limit = Number(req.query.limit) || 20;
     const data = await todoModal
       .find({ by: userid, done: false })
       .populate("by", "name")
-      .select("task done datetime")
-      .sort({ datetime: -1 })
+      .sort({ updatedAt: -1 })
       .skip(skip)
-      .limit(20);
+      .limit(limit);
     return res.status(200).json({ success: true, data });
   } catch (error) {
     console.log(error);
@@ -102,13 +102,13 @@ const getDoneTask = async (req, res) => {
   try {
     const { userid } = req;
     const skip = Number(req.query.skip) || 0;
+    const limit = Number(req.query.limit) || 20;
     const data = await todoModal
       .find({ by: userid, done: true })
       .populate("by", "name")
-      .select("task done datetime")
-      .sort({ datetime: -1 })
+      .sort({ updatedAt: -1 })
       .skip(skip)
-      .limit(20);
+      .limit(limit);
     return res.status(200).json({ success: true, data });
   } catch (error) {
     console.log(error);
