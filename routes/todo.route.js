@@ -8,12 +8,14 @@ const {
   deleteTodo,
   getTodaysTask,
   editTask,
+  dashboard,
 } = require("../controllers/todo.controller");
 
 route.post("/add", addTask);
 route.get("/pending-todo", getPendingTask);
 route.get("/todays-task", getTodaysTask);
 route.get("/completed-todo", getDoneTask);
+route.get("/dashboard", dashboard);
 route.patch("/change-done-status", toggleTodoStatus);
 route.patch("/edit", editTask);
 route.delete("/delete-todo/:todoid", deleteTodo);
