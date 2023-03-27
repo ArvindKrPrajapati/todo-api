@@ -182,7 +182,12 @@ const dashboard = async (req, res) => {
       { $match: { by: _id } },
       {
         $group: {
-          _id: null,
+          _id: {
+            $dateToString: {
+              format: "%Y-%m-%d",
+              date: "$date",
+            },
+          },
           total: { $sum: 1 },
           done: { $sum: { $cond: [{ $eq: ["$done", true] }, 1, 0] } },
           pending: { $sum: { $cond: [{ $eq: ["$done", false] }, 1, 0] } },
@@ -224,6 +229,17 @@ const dashboard = async (req, res) => {
               ],
             },
           },
+        },
+      },
+      {
+        $group: {
+          _id: null,
+          tasksByDate: { $push: "$$ROOT" },
+          total: { $sum: "$total" },
+          done: { $sum: "$done" },
+          pending: { $sum: "$pending" },
+          doneToday: { $sum: "$doneToday" },
+          pendingToday: { $sum: "$pendingToday" },
         },
       },
     ]);
