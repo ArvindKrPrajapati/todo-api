@@ -180,11 +180,22 @@ const deleteTodo = async (req, res) => {
 const dashboard = async (req, res) => {
   try {
     const { userid } = req;
-    const start = new Date();
-    start.setHours(0, 0, 0, 0);
+    const today = new Date();
+    const start = new Date(
+      Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate())
+    );
 
-    const end = new Date();
-    end.setHours(23, 59, 59, 999);
+    var end = new Date(
+      Date.UTC(
+        today.getUTCFullYear(),
+        today.getUTCMonth(),
+        today.getUTCDate(),
+        23,
+        59,
+        59,
+        999
+      )
+    );
     if (!userid) {
       return res.status(404).json({ success: false, error: "invalid t" });
     }
@@ -199,8 +210,8 @@ const dashboard = async (req, res) => {
         $group: {
           _id: {
             $dateToString: {
-              format: "%Y-%m-%d",
-              date: "$date",
+              format: "%d-%m-%Y",
+              date: "$updatedAt",
             },
           },
           total: { $sum: 1 },
@@ -213,10 +224,10 @@ const dashboard = async (req, res) => {
                   $and: [
                     { $eq: ["$done", true] },
                     {
-                      $gte: ["$date", start],
+                      $gte: ["$updatedAt", start],
                     },
                     {
-                      $lt: ["$date", end],
+                      $lt: ["$updatedAt", end],
                     },
                   ],
                 },
@@ -232,10 +243,10 @@ const dashboard = async (req, res) => {
                   $and: [
                     { $eq: ["$done", false] },
                     {
-                      $gte: ["$date", start],
+                      $gte: ["$updatedAt", start],
                     },
                     {
-                      $lt: ["$date", end],
+                      $lt: ["$updatedAt", end],
                     },
                   ],
                 },
