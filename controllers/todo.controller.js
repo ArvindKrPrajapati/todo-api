@@ -14,6 +14,7 @@ const addTask = async (req, res) => {
       by: userid,
       done: false,
       date: date ? date : Date.now(),
+      updatedAt: date ? new Date(date) : Date.now(),
     };
     if (task && image) {
       obj["task"] = task;
@@ -44,11 +45,13 @@ const editTask = async (req, res) => {
     }
     const obj = {
       done: false,
-      date: date ? date : Date.now(),
       task,
       image,
+      updatedAt: date ? new Date(date) : Date.now(),
     };
-
+    if (date) {
+      obj["date"] = date;
+    }
     const data = await todoModal.findByIdAndUpdate(id, obj, { new: true });
     return res.status(200).json({ success: true, data });
   } catch (error) {
@@ -60,19 +63,31 @@ const editTask = async (req, res) => {
 const getTodaysTask = async (req, res) => {
   try {
     const { userid } = req;
-    const start = new Date();
-    start.setHours(0, 0, 0, 0);
+    const today = new Date();
 
-    const end = new Date();
-    end.setHours(23, 59, 59, 999);
+    const start = new Date(
+      Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate())
+    );
+
+    var end = new Date(
+      Date.UTC(
+        today.getUTCFullYear(),
+        today.getUTCMonth(),
+        today.getUTCDate(),
+        23,
+        59,
+        59,
+        999
+      )
+    );
 
     const data = await todoModal
       .find({
         by: userid,
-        date: { $gte: start, $lt: end },
+        updatedAt: { $gte: start, $lt: end },
       })
       .populate("by", "name")
-      .sort({ createdAt: -1 });
+      .sort({ updatedAt: -1 });
     return res.status(200).json({ success: true, data });
   } catch (error) {
     console.log(error);
@@ -131,7 +146,7 @@ const toggleTodoStatus = async (req, res) => {
     const _id = mongoose.Types.ObjectId(todoid);
     const data = await todoModal.findOneAndUpdate(
       { _id, by: req.userid },
-      { done },
+      { done, updatedAt: Date.now() },
       { new: true }
     );
     return res.status(200).json({ success: true, data });
