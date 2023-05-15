@@ -5,12 +5,12 @@ const schema = new mongoose.Schema(
     tmdb_id: {
       type: String,
       required: true,
-      unique: true
+      unique: true,
     },
     imdb_id: {
       type: String,
       required: true,
-      unique: true
+      unique: true,
     },
     poster_path: {
       type: String,
@@ -33,19 +33,20 @@ const schema = new mongoose.Schema(
     },
     type: {
       type: String,
-      required: true
+      required: true,
     },
-    release_date:{
-      type:Date,
-      required: true
+    release_date: {
+      type: Date,
+      required: true,
     },
-    video: [{
-      id: Number,
-      resolution: Number,
-      language: String,
-      href: String,
-      href_two: String
-    }]
+    video: [
+      {
+        resolution: Number,
+        language: String,
+        href: String,
+        href_two: String,
+      },
+    ],
   },
   {
     timestamps: true,
