@@ -5,12 +5,9 @@ const schema = new mongoose.Schema(
     tmdb_id: {
       type: String,
       required: true,
-      unique: true,
     },
     imdb_id: {
       type: String,
-      required: true,
-      unique: true,
     },
     poster_path: {
       type: String,
