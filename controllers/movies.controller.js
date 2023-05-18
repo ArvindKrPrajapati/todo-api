@@ -123,7 +123,7 @@ const getById = async (req, res) => {
   try {
     const { tmdb_id } = req.params;
 
-    const data = await movie.findOne({ tmdb_id });
+    const data = await movie.find({ tmdb_id });
     res.status(200).json({ success: true, data });
   } catch (error) {
     res.status(500).json({ success: false, message: "server error" });
