@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const schema = new mongoose.Schema(
   {
     tmdb_id: {
-      type: String,
+      type: Number,
       required: true,
     },
     imdb_id: {
