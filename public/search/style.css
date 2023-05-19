@@ -1,0 +1,33 @@
+
+#loader{
+    position: fixed;
+    right: 28px;
+    top: 25px;
+    z-index: 100;
+}
+.header{
+    position: fixed;
+    background-color: #0a0825;
+}
+#main{
+    padding: 20px;
+    padding-top: 80px;
+}
+.img{
+    height: 150px;
+}
+.content{
+    background-color:#0f0c36;
+    border-radius: 10px;
+    overflow: hidden;
+}
+.text {
+    overflow: hidden;
+    width: 100%;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+}
+a{
+    text-decoration: none;
+}

@@ -14,7 +14,7 @@ const mverse = require("./routes/movie.route");
 const authlogin = require("./middleware/auth.middleware");
 
 const PORT = process.env.PORT || 3000;
-
+app.use(express.static("public"))
 app.use(express.json());
 app.use(cors());
 

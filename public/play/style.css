@@ -1,0 +1,38 @@
+
+
+
+
+
+
+
+
+
+body,html{
+  height: 100%;
+}
+
+body{
+  background:#0a0825;
+}
+.layout{
+  padding: 20px;
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+}
+#main{
+  height: 100%;
+}
+.content{
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+@media screen and (max-width: 700px) {
+  .layout,.content{
+    display: block;
+  }
+  .layout{
+    padding: 0;
+  }
+}
