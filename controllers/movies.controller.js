@@ -101,11 +101,32 @@ const liveSearch = async (req, res) => {
     const skip = Number(req.query.skip) || 0;
     const limit = Number(req.query.limit) || 20;
 
-    const data = await movie
-      .find({ title: { $regex: "^" + name, $options: "i" } })
-      .sort({ release_date: -1 })
-      .skip(skip)
-      .limit(limit);
+    const data = await movie.aggregate([
+  {
+    $match: { title: { $regex: "^" + name, $options: "i" } }
+  },
+  {
+    $sort: { release_date: -1 }
+  },
+  {
+    $group: {
+      _id: "$tmdb_id",
+      document: { $first: "$$ROOT" }
+    }
+  },
+  {
+    $skip: skip
+  },
+  {
+    $limit: limit
+  },
+  {
+    $replaceRoot: {
+      newRoot: "$document"
+    }
+  }
+]);
+
     res.status(200).json({ success: true, data });
   } catch (error) {
     res.status(500).json({ success: false, message: "server error" });
