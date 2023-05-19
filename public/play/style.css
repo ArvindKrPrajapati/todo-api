@@ -28,6 +28,11 @@ body{
   align-items: center;
   justify-content: center;
 }
+#player{
+  width:100%;
+  aspect-ratio: 16/9;
+  background:black;
+}
 @media screen and (max-width: 700px) {
   .layout,.content{
     display: block;

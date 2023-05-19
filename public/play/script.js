@@ -41,6 +41,7 @@ if (!id) {
           player.setup({
             // file: "http://hd1.dlmania.com/Hollywood/M3gan%20-%20SCam/M3gan%20-%20SCam%20HD%20(HDMp4Mania).mp4"
             sources: sources,
+            autostart:true
             // other configuration options
           });
         } else {
