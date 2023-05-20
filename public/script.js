@@ -53,8 +53,8 @@ fetch(url + "/all?limit=9&country=India")
   .catch((e) => {
     console.log(e);
   });
-
-fetch(url + "/all?limit=9")
+//foreign
+fetch(url + "/all?limit=9&country=foreign")
   .then((res) => res.json())
   .then((data) => {
     if (data.success) {
