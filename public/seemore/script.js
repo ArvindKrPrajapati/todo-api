@@ -40,9 +40,9 @@ fetch(url)
       document.querySelector("#pagination").innerHTML=`<div class="mt-5" style="margin:auto">
   <nav aria-label="Page navigation example">
   <ul class="pagination justify-content-end">
-    <li class="page-item"><a class="page-link" style="display:${page<=1 ? 'none' : 'block'}" href="#">${page-1}</a></li>
+    <li class="page-item"><a class="page-link" style="display:${page<=1 ? 'none' : 'block'}" href="/seemore/index.html?page=${page-1}${type ? '&type='+type :''}${country ? '&country='+country :''}">${page-1}</a></li>
     <li class="page-item active"><a class="page-link" href="#">${page}</a></li>
-    <li class="page-item"><a class="page-link" href="#">${page+1}</a></li>
+    <li class="page-item"><a class="page-link" href="/seemore/index.html?page=${page+1}${type ? '&type='+type :''}${country ? '&country='+country :''}">${page+1}</a></li>
   </ul>
 </nav>
       </div>`
