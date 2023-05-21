@@ -12,7 +12,7 @@ const searchMovie = async (e) => {
       if (data.success) {
         if (data.data.length) {
           data.data.map((item) => {
-            h += `<a href="/play/index.html?id=${item.tmdb_id}" class="d-flex mb-2 content">
+            h += `<a href="/play/${item.tmdb_id}" class="d-flex mb-2 content">
       <img src="${item.poster_path}" class="img"/>
       <div class="p-3">
       <h3 style="color:gainsboro">${item.title}</h3>

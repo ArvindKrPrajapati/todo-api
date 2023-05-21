@@ -1,41 +1,47 @@
-const params = new URLSearchParams(window.location.href.split("?")[1]);
-const url = "https://mytodo-api.cyclic.app/v1/mverse";
-const main = document.querySelector("#main");
-const loader = document.querySelector("#loader");
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="theme-color" content="#0a0825" />
+<title>
+<%= data[0].title %>
+</title>
+<link
+href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css"
+rel="stylesheet"
+integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ"
+crossorigin="anonymous"
+/>
+<link href="/play/style.css" rel="stylesheet" />
+<script src="https://cdn.jwplayer.com/libraries/5TLRxR5E.js"></script>
 
-// Get individual query parameters
-const id = params.get("id");
-if (!id) {
-  alert("not found");
-} else {
-  fetch(url + "/details/" + id)
-  .then((res) => res.json())
-  .then((data) => {
-    main.style.display = "block";
-    loader.style.display = "none";
-    if (data.success) {
-      if (data.data.length) {
-        const details = data.data[0];
-        let sources = data.data.map((item) => {
+</head>
+<body>
+
+<main id="main">
+<section class="content">
+  <div class="layout">
+    <div id="player"></div>
+    <div class="p-4">
+      <h2 class="text-white mb-0"><%= data[0].title %></h2>
+      <small style="color: gainsboro; display: block;" class="mb-1">Release Date: <%= data[0].release_date %></small><br>
+      <small style="color: #eee;"><%= data[0].overview %></small>
+    </div>
+  </div>
+</section>
+
+</main>
+</body>
+<script>
+  const details=<%- JSON.stringify(data) %>
+  let sources = details.map((item) => {
           return {
             file: item.video[0].href,
             label: item.video[0].resolution + "p - " + item.video[0].language,
             type: "video/mp4",
           };
         });
-        const h = `<section class="content">
-        <div class="layout">
-        <div id="player"></div>
-        <div class="p-4">
-        <h2 class="text-white mb-0">${details.title}</h2>
-        <small style="color:gainsboro; display:block" class="mb-1">Release Date : ${details.release_date}</small><br>
-        <small style="color:#eee">${details.overview}</small>
-        </div>
-        </div>
-        </div>
-        `;
-
-        document.querySelector("#main").innerHTML = h;
         var player = jwplayer("player");
         player.setup({
          /// file: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
@@ -73,14 +79,5 @@ if (!id) {
           },
           "myButtonId2"
         );
-      } else {
-        console.log("movie not found");
-      }
-    } else {
-      console.log("error");
-    }
-  })
-  .catch((e) => {
-    console.log(e);
-  });
-}
+</script>
+</html>
