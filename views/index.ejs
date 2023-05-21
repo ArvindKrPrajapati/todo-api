@@ -34,62 +34,41 @@ placeholder="search movies"
 
 <main id="main">
 
-<div id="carouselExampleIndicators" class="carousel slide carousel-fade" data-bs-ride="carousel">
 
-
+<div id="carouselExampleAutoplaying" class="carousel slide carousel-fade" data-bs-ride="carousel">
 <div class="carousel-indicators">
+   <% carousel.map((item, index) => { %>
+    <button type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide-to="<%= index %>" class="<%= index == 0 ? 'active' : '' %>"  aria-label="Slide <%= index+1 %>"></button>
+ <% }) %>
+  </div>
+  <div class="carousel-inner">
+
+<% carousel.map((item, index) => { %>
+  <div class="carousel-item <%= index == 0 ? 'active' : '' %>">
+    <div class="overlay">
+      <div>
+        <img src="<%= item.poster_path %>" class="d-block o-img" alt="...">
+        <b><%= item.title %></b>
+        <a href="/play/<%= item.tmdb_id %>" class="btn btn-danger">Watch Now</a>
+      </div>
+    </div>
+    <img src="<%= item.backdrop_path %>" class="d-block w-100 c-img" alt="...">
+  </div>
+<% }) %>
+
+ </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
 
 
-<% carousel.forEach((item, index) => {
-%>
-<button
-type="button"
-data-bs-target="#carouselExampleIndicators"
-data-bs-slide-to="<%= index %>"
-<%= index === 0 ? 'class="active" aria-current="true"': '' %>
-aria-label="Slide <%= index + 1 %>">
-</button>
-<%
-}); %>
 
-
-</div>
-<div class="carousel-inner">
-<% carousel.map((item, index) => {
-%>
-<div class="carousel-item <%= index === 0 ? 'active': '' %>">
-<div class="overlay">
-<div>
-<img src="<%= item.poster_path %>" class="d-block o-img" alt="...">
-<b><%= item.title %></b>
-<a href="/play/<%= item.tmdb_id %>" class="btn btn-danger">Watch Now</a>
-</div>
-</div>
-<img src="<%= item.backdrop_path %>" class="d-block w-100 c-img" alt="...">
-</div>
-<%
-}); %>
-</div>
-
-<button
-class="carousel-control-prev"
-type="button"
-data-bs-target="#carouselExampleIndicators"
-data-bs-slide="prev"
->
-<span class="carousel-control-prev-icon" aria-hidden="true"></span>
-<span class="visually-hidden">Previous</span>
-</button>
-<button
-class="carousel-control-next"
-type="button"
-data-bs-target="#carouselExampleIndicators"
-data-bs-slide="next"
->
-<span class="carousel-control-next-icon" aria-hidden="true"></span>
-<span class="visually-hidden">Next</span>
-</button>
-</div>
 <div class="p-3 mt-2">
 <div class="heading">
 <h3 class="text-white m-0">Indian Movies</h3>
