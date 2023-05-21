@@ -23,6 +23,9 @@ const searchMovie = async (e) => {
           });
           document.querySelector("#main").innerHTML = h;
         } else {
+          document.querySelector("#main").innerHTML=`<div>
+                <h4 style="color:silver">Not found</div>
+              </div>`
           console.log("nothing found");
         }
       }
