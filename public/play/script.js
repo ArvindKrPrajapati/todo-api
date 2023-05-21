@@ -38,8 +38,8 @@ if (!id) {
         document.querySelector("#main").innerHTML = h;
         var player = jwplayer("player");
         player.setup({
-         // file: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
-           sources: sources,
+         /// file: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+          sources: sources,
           stretching: "uniform",
         });
         player.addButton(
@@ -49,20 +49,29 @@ if (!id) {
             // Click handler function
             if (player.getStretching() === "uniform") {
               player.setConfig({
-                stretching:"exactfit"
+                stretching: "exactfit"
               })
 
-            } else if(player.getStretching()==="exactfit") {
+            } else if (player.getStretching() === "exactfit") {
               player.setConfig({
                 stretching: "fill"
               });
-            }else{
+            } else {
               player.setConfig({
                 stretching: "uniform"
               });
             }
           },
           "myButtonId"
+        );
+        player.addButton(
+          "./fast-forward-10.svg",
+          "skip 10s",
+          function() {
+            // Click handler function
+            player.seek(player.getPosition()+10)
+          },
+          "myButtonId2"
         );
       } else {
         console.log("movie not found");
