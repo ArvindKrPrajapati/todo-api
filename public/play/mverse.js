@@ -34,12 +34,16 @@ video.addEventListener("timeupdate", function () {
 
 function setTime(currentTime) {
   const duration = formatTime(video.duration);
+  if(duration){
   timeDisplay.textContent = currentTime + " / " + duration;
 }
+  }
 function setSlider(currentTime) {
   const duration = video.duration;
-  slider.value = (currentTime / duration) * 100;
+  if(duration){
+   slider.value = (currentTime / duration) * 100;
 }
+  }
 function formatTime(time) {
   var hours = Math.floor(time / 3600);
   var minutes = Math.floor((time % 3600) / 60);
