@@ -1,0 +1,146 @@
+html,
+body {
+  height: 100%;
+}
+
+body {
+  background-color: #040429;
+}
+
+video::-webkit-media-controls {
+  display: none !important;
+}
+
+video::-webkit-media-controls-enclosure {
+  display: none !important;
+}
+
+video::-webkit-media-controls-panel {
+  display: none !important;
+}
+
+video::-webkit-media-controls-play-button {
+  display: none !important;
+}
+
+video {
+  width: 100%;
+  background-color: black;
+  aspect-ratio: 16/9;
+  overflow: hidden;
+}
+
+.loader-container {
+  position: absolute;
+  /* width: 100%; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  aspect-ratio: 16/9;
+  z-index: 99;
+}
+.loader-container,
+.overlay {
+  width: 100%;
+}
+.custom-spinner {
+  width: 4rem;
+  height: 4rem;
+  border-width: 0.3rem;
+}
+
+.overlay {
+  /* width: 100%; */
+  aspect-ratio: 16/9;
+  position: absolute;
+  background: linear-gradient(
+    rgba(0, 0, 0, 0.3),
+    rgba(0, 0, 0, 0.1),
+    rgba(0, 0, 0, 0.3)
+  );
+  z-index: 100;
+  transition: all 0.2s;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.playBtn,
+.pauseBtn {
+  display: none;
+  width: 70px;
+  aspect-ratio: 1/1;
+  justify-content: center;
+  align-items: center;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.playBtn {
+  margin-left: 5px;
+}
+
+.header {
+  padding: 6px 0 15px 15px;
+  box-sizing: border-box;
+}
+
+.range {
+  width: 100%;
+  height: 3px;
+  position: relative;
+  top: 6px;
+}
+
+.timerAndMenu {
+  padding: 0 8px;
+  position: relative;
+  top: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+#time-display {
+  font-size: 12px;
+}
+
+.video-container:fullscreen {
+  height: 100%;
+}
+
+.menus {
+  display: flex;
+  align-items: center;
+}
+
+.video-container {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.menus svg {
+  margin-left: 15px;
+}
+
+/* .controls {
+  margin-top: 15px;
+}
+.footer {
+  padding: 0px 8px 15px 8px;
+}
+@media screen and (max-width: 700px) {
+  .controls {
+    margin-top: 0px;
+  }
+
+  .footer {
+    padding: 0px;
+  }
+} */

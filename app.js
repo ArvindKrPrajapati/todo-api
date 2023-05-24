@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
-const path = require('path');
+const path = require("path");
 const mongoose = require("mongoose");
 require("dotenv").config();
 
@@ -15,10 +15,10 @@ const html = require("./routes/html/movies.routes");
 // middleware
 const authlogin = require("./middleware/auth.middleware");
 
-const PORT = process.env.PORT || 3000;
-app.use(express.static("public"))
-app.set('view engine', 'ejs'); // Set EJS as the view engine
-app.set('views', path.join(__dirname, 'views')); // Set the views directory
+const PORT = process.env.PORT || 1000;
+app.use(express.static("public"));
+app.set("view engine", "ejs"); // Set EJS as the view engine
+app.set("views", path.join(__dirname, "views")); // Set the views directory
 
 app.use(express.json());
 app.use(cors());
