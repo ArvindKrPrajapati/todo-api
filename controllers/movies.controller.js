@@ -30,58 +30,46 @@ const getAll = async (req, res) => {
       filter["country"] = country;
     }
 
-   /* const data = await movie
-      .find(filter)
-      .sort({
-        release_date: -1,
-      })
-      .skip(skip)
-      .limit(limit);*/
-      
-      
- 
-
     const pipeline = [
-  {
-    $match: filter
-  },
-  {
-    $group: {
-      _id: '$tmdb_id',
-      count: { $sum: 1 },
-      document: { $first: '$$ROOT' }
-    }
-  },
-  {
-    $match: {
-      count: { $eq: 1 }
-    }
-  },
-  {
-    $sort: {
-      'document.release_date': -1
-    }
-  },
-  {
-    $skip: skip
-  },
-  {
-    $limit: limit
-  },
-  {
-    $replaceRoot: {
-      newRoot: '$document'
-    }
-  },
-  {
-    $project: {
-      _id: 0
-    }
-  }
-];
+      {
+        $match: filter,
+      },
+      {
+        $group: {
+          _id: "$tmdb_id",
+          count: { $sum: 1 },
+          document: { $first: "$$ROOT" },
+        },
+      },
+      {
+        $match: {
+          count: { $eq: 1 },
+        },
+      },
+      {
+        $sort: {
+          "document.release_date": -1,
+        },
+      },
+      {
+        $skip: skip,
+      },
+      {
+        $limit: limit,
+      },
+      {
+        $replaceRoot: {
+          newRoot: "$document",
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+        },
+      },
+    ];
 
-
-    const data = await movie.aggregate(pipeline)
+    const data = await movie.aggregate(pipeline);
     return res.status(200).json({
       success: true,
       data,
@@ -102,30 +90,30 @@ const liveSearch = async (req, res) => {
     const limit = Number(req.query.limit) || 20;
 
     const data = await movie.aggregate([
-  {
-    $match: { title: { $regex: "^" + name, $options: "i" } }
-  },
-  {
-    $sort: { release_date: -1 }
-  },
-  {
-    $group: {
-      _id: "$tmdb_id",
-      document: { $first: "$$ROOT" }
-    }
-  },
-  {
-    $skip: skip
-  },
-  {
-    $limit: limit
-  },
-  {
-    $replaceRoot: {
-      newRoot: "$document"
-    }
-  }
-]);
+      {
+        $match: { title: { $regex: "^" + name, $options: "i" } },
+      },
+      {
+        $sort: { release_date: -1 },
+      },
+      {
+        $group: {
+          _id: "$tmdb_id",
+          document: { $first: "$$ROOT" },
+        },
+      },
+      {
+        $skip: skip,
+      },
+      {
+        $limit: limit,
+      },
+      {
+        $replaceRoot: {
+          newRoot: "$document",
+        },
+      },
+    ]);
 
     res.status(200).json({ success: true, data });
   } catch (error) {
@@ -143,7 +131,6 @@ const getById = async (req, res) => {
 };
 const addMany = async (req, res) => {
   try {
-    console.log("server: ",res.body)
     const data = await movie.insertMany(req.body);
     return res.status(200).json({
       success: true,
@@ -163,5 +150,5 @@ module.exports = {
   getAll,
   liveSearch,
   getById,
-  addMany
+  addMany,
 };
