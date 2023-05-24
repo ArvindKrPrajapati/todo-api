@@ -14,13 +14,9 @@ const footer = document.querySelector(".footer");
 const video_container = document.querySelector(".video-container");
 const aspect_ratio = document.querySelector("#aspect-ratio");
 
-function getScreenWidth() {
-  var screenWidth =
-    window.innerWidth ||
-    document.documentElement.clientWidth ||
-    document.body.clientWidth;
-  return screenWidth;
-}
+video.addEventListener("error", function (event) {
+  alert(event.target.error);
+});
 
 video.addEventListener("loadedmetadata", function () {
   var currentTime = formatTime(video.currentTime);
@@ -74,7 +70,6 @@ playBtn.addEventListener("click", (event) => {
 fullscreen.addEventListener("click", (event) => {
   event.stopPropagation();
   if (!document.fullscreenElement) {
-    overlay.style.height = "100%";
     controls.style.marginTop = "15px";
     footer.style.padding = "0px 8px 15px 8px";
     if (video_container.requestFullscreen) {
@@ -90,7 +85,6 @@ fullscreen.addEventListener("click", (event) => {
       video_container.msRequestFullscreen();
     }
   } else {
-    overlay.style.height = "";
     controls.style.marginTop = "0px";
     footer.style.padding = "0px";
     if (document.exitFullscreen) {

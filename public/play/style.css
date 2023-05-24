@@ -1,43 +1,41 @@
-
-
-
-
-
-
-
-
-
-body,html{
+body,
+html {
   height: 100%;
 }
 
-body{
-  background:#0a0825;
+body {
+  background: #0a0825;
 }
-.layout{
+.layout {
   padding: 20px;
-  display: grid;
-  grid-template-columns: 2fr 1fr;
+  display: flex;
 }
-#main{
+#main {
   height: 100%;
 }
-.content{
+.content {
   height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-#player{
-  width:100%;
+#player {
+  width: 100%;
   aspect-ratio: 16/9;
-  background:black;
+  background: black;
+}
+.width-50 {
+  width: 50%;
 }
 @media screen and (max-width: 700px) {
-  .layout,.content{
+  .layout,
+  .content {
     display: block;
   }
-  .layout{
+  .layout {
     padding: 0;
+  }
+  .width-50 {
+    width: 100%;
   }
 }
