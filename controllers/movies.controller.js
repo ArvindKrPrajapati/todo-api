@@ -141,10 +141,27 @@ const getById = async (req, res) => {
     res.status(500).json({ success: false, message: "server error" });
   }
 };
+const addMany = async (req, res) => {
+  try {
+    console.log("server: ",res.body)
+    const data = await movie.insertMany(req.body);
+    return res.status(200).json({
+      success: true,
+      data,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      success: false,
+      error: "server error",
+    });
+  }
+};
 
 module.exports = {
   add,
   getAll,
   liveSearch,
   getById,
+  addMany
 };
