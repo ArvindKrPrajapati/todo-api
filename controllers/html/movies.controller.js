@@ -6,18 +6,8 @@ const mverseGet = async (skip, limit, filter)=> {
     {
       $group: {
         _id: '$tmdb_id',
-        count: {
-          $sum: 1
-        },
         document: {
           $first: '$$ROOT'
-        }
-      }
-    },
-    {
-      $match: {
-        count: {
-          $eq: 1
         }
       }
     },
@@ -37,13 +27,7 @@ const mverseGet = async (skip, limit, filter)=> {
         newRoot: '$document'
       }
     },
-    {
-      $project: {
-        _id: 0
-      }
-    }];
-
-
+    ];
   const data = await movie.aggregate(pipeline)
   return data
 }
