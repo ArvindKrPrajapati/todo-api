@@ -177,9 +177,13 @@ video.onwaiting = function () {
 };
 
 function changeLink(item){
+  const ct=video.currentTime
   const s=item.video[0].href
   const videoSource=document.querySelector("#video-source")
   videoSource.src=s 
+  setTime(ct)
+  setSlider(ct)
   video.load()
+  video.currentTime=ct
   video.play()
 }
