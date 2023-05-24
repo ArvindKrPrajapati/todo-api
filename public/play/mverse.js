@@ -99,6 +99,9 @@ fullscreen.addEventListener("click", (event) => {
       // IE/Edge
       video_container.msRequestFullscreen();
     }
+    if (screen.orientation && screen.orientation.lock) {
+    screen.orientation.lock('landscape');
+  }
   } else {
     controls.style.marginTop = "0px";
     footer.style.padding = "0px";
@@ -114,6 +117,9 @@ fullscreen.addEventListener("click", (event) => {
       // IE/Edge
       document.msExitFullscreen();
     }
+    if (screen.orientation && screen.orientation.unlock) {
+    screen.orientation.unlock();
+  }
   }
 });
 
