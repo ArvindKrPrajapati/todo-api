@@ -13,6 +13,8 @@ const controls = document.querySelector(".controls");
 const footer = document.querySelector(".footer");
 const video_container = document.querySelector(".video-container");
 const aspect_ratio = document.querySelector("#aspect-ratio");
+const settingbtn = document.querySelector("#setting");
+const options = document.querySelector("#options");
 
 video.addEventListener("error", function (event) {
   alert(event.target.error);
@@ -60,6 +62,15 @@ pauseBtn.addEventListener("click", (event) => {
   event.stopPropagation();
   video.pause();
   togglePlayPauseBtn();
+});
+
+settingbtn.addEventListener("click", (event) => {
+  event.stopPropagation();
+  options.style.transform = "translateY(0)";
+});
+
+options.addEventListener("click", (event) => {
+  options.style.transform = "translateY(100%)";
 });
 
 playBtn.addEventListener("click", (event) => {
