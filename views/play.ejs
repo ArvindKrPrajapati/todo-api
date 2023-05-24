@@ -97,17 +97,18 @@
                 <div class="quality p-4">
                   <b class="text-white d-block">video options</b>
                   <div class="p-2">
-                    <% data.map(item=>{ %>
-                      <div class="link-btn d-block">
-                        <%= item.video[0].resolution +"p - "+item.video[0].language %>
-                      </div>
-                      <% }) %>
+<% data.map(item => { %>
+  <div class="link-btn d-block" onclick="changeLink(<%= JSON.stringify(item) %>)">
+    <%= item.video[0].resolution + "p - " + item.video[0].language %>
+  </div>
+<% }) %>
+
                     </div>
                   </div>
                 </main>
               </section>
               <video autoplay>
-                <source src=" <%=data[0].video[0].href %>" />
+                <source id="video-source" src=" <%=data[0].video[0].href %>" />
                           </video>
                       </div>
                       <!-- src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" -->

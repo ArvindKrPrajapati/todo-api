@@ -157,6 +157,8 @@ video {
   height: 300px;
   background-color: #01011d;
   width: 100%;
+  position: relative;
+  z-index: 201;
   box-shadow: 00px 0px 15px #01011d;
   overflow-y: auto;
 }

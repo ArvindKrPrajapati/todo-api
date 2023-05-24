@@ -175,3 +175,11 @@ video.addEventListener("canplay", function () {
 video.onwaiting = function () {
   loader.style.display = "block";
 };
+
+function changeLink(item){
+  const s=item.video[0].href
+  const videoSource=document.querySelector("#video-source")
+  videoSource.src=s 
+  video.load()
+  video.play()
+}
