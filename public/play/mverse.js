@@ -21,6 +21,7 @@ video.addEventListener("error", function (event) {
 });
 
 video.addEventListener("loadedmetadata", function () {
+ loader_container.style.background="transparent"
   var currentTime = formatTime(video.currentTime);
   setTime(currentTime);
   setSlider(video.currentTime);
@@ -187,6 +188,7 @@ video.onwaiting = function () {
 };
 
 function changeLink(item){
+  loader_container.style.background="black"
   const ct=video.currentTime
   const s=item.video[0].href
   const videoSource=document.querySelector("#video-source")
@@ -195,5 +197,6 @@ function changeLink(item){
   setSlider(ct)
   video.load()
   video.currentTime=ct
+  loader_container.style.background="transparent"
   video.play()
 }

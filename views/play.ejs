@@ -107,11 +107,12 @@
                   </div>
                 </main>
               </section>
-              <video autoplay>
-                <source id="video-source" src=" <%=data[0].video[0].href %>" />
-                          </video>
+              <video autoplay preload="metadata"
+                      src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+              >
+              <!--  <source id="video-source" src=" <%=data[0].video[0].href %>" />
+                         --> </video>
                       </div>
-                      <!-- src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" -->
                   </div>
                   <div class="p-4 width-50">
                     <h2 class="text-white mb-0">
