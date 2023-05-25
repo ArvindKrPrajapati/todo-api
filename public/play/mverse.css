@@ -34,7 +34,7 @@ video {
   align-items: center;
   height: 100%;
   z-index: 99;
-  background:black;
+  background: black;
 }
 .loader-container,
 .overlay {
@@ -171,4 +171,56 @@ video {
   margin-bottom: 5px;
   background-color: #0d0d5c;
   border-radius: 3px;
+}
+
+/* Style the tab */
+.tab {
+  overflow: hidden;
+  border-bottom: 1px solid #0d0d5c;
+  background-color: inherit;
+  position: sticky;
+  top: 0;
+}
+
+/* Style the buttons that are used to open the tab content */
+.tab button {
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 10px 16px;
+  transition: 0.3s;
+  color: #eee;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+  background-color: #0d0d5c;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+  background-color: #0d0d5c;
+}
+
+/* Style the tab content */
+.tabcontent {
+  display: none;
+  padding: 6px 12px;
+  border-top: none;
+}
+/* fade in tab */
+.tabcontent {
+  animation: fadeEffect 1s; /* Fading effect takes 1 second */
+}
+
+/* Go from zero to full opacity */
+@keyframes fadeEffect {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }

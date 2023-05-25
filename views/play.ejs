@@ -94,38 +94,84 @@
             </main>
             <section id="options">
               <main class="options-content">
-                <div class="quality p-4">
-                  <b class="text-white d-block">video options</b>
-                  <div class="p-2">
-<% data.map(item => { %>
-  <div class="link-btn d-block" onclick="changeLink(<%= JSON.stringify(item) %>)">
-    <%= item.video[0].resolution + "p - " + item.video[0].language %>
-  </div>
-<% }) %>
+                <div class="tab">
+                  <button class="tablinks" onclick="openTab(event, 'quality')" id="defaultOpen">Options</button>
+                  <button class="tablinks" onclick="openTab(event, 'speed')">Speed</button>
+                </div>
+                <div id="quality" class="tabcontent">
+                  <div class="quality p-4">
+                    <b class="text-white d-block">video options</b>
+                    <div class="p-2">
+                      <% data.map(item=> { %>
+                        <div class="link-btn d-block" onclick="changeLink(<%= JSON.stringify(item) %>)">
+                          <%= item.video[0].resolution + "p - " + item.video[0].language %>
+                        </div>
+                        <% }) %>
 
                     </div>
                   </div>
-                </main>
-              </section>
-              <video autoplay preload="metadata"
-              >
-               <source id="video-source" src=" <%=data[0].video[0].href %>" />
-                          </video>
+                </div>
+
+                <div id="speed" class="tabcontent">
+                  <div class="speed p-4">
+                    <b class="text-white d-block">video speed</b>
+                    <div class="p-2" id="speed-btn-group">
+                      <div class="link-btn d-block" style="background-color: inherit;"
+                        onclick="changeSpeed(0.25,event)">
+                        0.25x
                       </div>
-                  </div>
-                     <!-- src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
-                 --> <div class="p-4 width-50">
-                    <h2 class="text-white mb-0">
-                      <%= data[0].title %>
-                    </h2>
-                    <small style="color: gainsboro; display: block" class="mb-1">Release Date: <%= data[0].release_date
-                        %></small><br />
-                    <small style="color: #eee">
-                      <%= data[0].overview %>
-                    </small>
+                      <div class="link-btn d-block" style="background-color: inherit;" onclick="changeSpeed(0.5,event)">
+                        0.5x
+                      </div>
+                      <div class="link-btn d-block" style="background-color: inherit;"
+                        onclick="changeSpeed(0.75,event)">
+                        0.75x
+                      </div>
+                      <div class="link-btn d-block" id="defaultSpeed" style="background-color: inherit;"
+                        onclick="changeSpeed(1,event)">
+                        Normal
+                      </div>
+                      <div class="link-btn d-block" style="background-color: inherit;"
+                        onclick="changeSpeed(1.25,event)">
+                        1.25x
+                      </div>
+                      <div class="link-btn d-block" style="background-color: inherit;" onclick="changeSpeed(1.5,event)">
+                        1.5x
+                      </div>
+                      <div class="link-btn d-block" style="background-color: inherit;"
+                        onclick="changeSpeed(1.75,event)">
+                        1.75x
+                      </div>
+                      <div class="link-btn d-block" style="background-color: inherit;" onclick="changeSpeed(2,event)">
+                        2x
+                      </div>
+
+                    </div>
                   </div>
                 </div>
+
+
+              </main>
             </section>
+            <video autoplay preload="metadata">
+              <source id="video-source" src=" <%=data[0].video[0].href %>" />
+            </video>
+          </div>
+        </div>
+        <!-- src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                 -->
+        <div class="p-4 width-50">
+          <h2 class="text-white mb-0">
+            <%= data[0].title %>
+          </h2>
+          <small style="color: gainsboro; display: block" class="mb-1">Release Date: <%= data[0].release_date %>
+          </small><br />
+          <small style="color: #eee">
+            <%= data[0].overview %>
+          </small>
+        </div>
+      </div>
+    </section>
   </main>
 </body>
 <script src="/play/mverse.js"></script>

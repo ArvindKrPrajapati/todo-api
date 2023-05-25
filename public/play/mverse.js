@@ -34,16 +34,16 @@ video.addEventListener("timeupdate", function () {
 
 function setTime(currentTime) {
   const duration = formatTime(video.duration);
-  if(duration){
-  timeDisplay.textContent = currentTime + " / " + duration;
-}
+  if (duration) {
+    timeDisplay.textContent = currentTime + " / " + duration;
   }
+}
 function setSlider(currentTime) {
   const duration = video.duration;
-  if(duration){
-   slider.value = (currentTime / duration) * 100;
-}
+  if (duration) {
+    slider.value = (currentTime / duration) * 100;
   }
+}
 function formatTime(time) {
   var hours = Math.floor(time / 3600);
   var minutes = Math.floor((time % 3600) / 60);
@@ -100,8 +100,8 @@ fullscreen.addEventListener("click", (event) => {
       video_container.msRequestFullscreen();
     }
     if (screen.orientation && screen.orientation.lock) {
-    screen.orientation.lock('landscape');
-  }
+      screen.orientation.lock("landscape");
+    }
   } else {
     controls.style.marginTop = "0px";
     footer.style.padding = "0px";
@@ -118,8 +118,8 @@ fullscreen.addEventListener("click", (event) => {
       document.msExitFullscreen();
     }
     if (screen.orientation && screen.orientation.unlock) {
-    screen.orientation.unlock();
-  }
+      screen.orientation.unlock();
+    }
   }
 });
 
@@ -180,22 +180,52 @@ loader_container.addEventListener("click", () => {
 
 video.addEventListener("canplay", function () {
   togglePlayPauseBtn();
-  loader_container.style.background="transparent"
+  loader_container.style.background = "transparent";
   loader.style.display = "none";
 });
 video.onwaiting = function () {
   loader.style.display = "block";
 };
 
-function changeLink(item){
-  loader_container.style.background="black"
-  const ct=video.currentTime
-  const s=item.video[0].href
-  const videoSource=document.querySelector("#video-source")
-  videoSource.src=s 
-  setTime(ct)
-  setSlider(ct)
-  video.load()
-  video.currentTime=ct
-  video.play()
+function changeLink(item) {
+  loader_container.style.background = "black";
+  const ct = video.currentTime;
+  const s = item.video[0].href;
+  const videoSource = document.querySelector("#video-source");
+  videoSource.src = s;
+  setTime(ct);
+  setSlider(ct);
+  video.load();
+  video.currentTime = ct;
+  video.play();
+}
+document.getElementById("defaultOpen").click();
+function openTab(evt, tabName) {
+  evt.stopPropagation();
+
+  // Declare all variables
+  var i, tabcontent, tablinks;
+
+  // Get all elements with class="tabcontent" and hide them
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+
+  // Get all elements with class="tablinks" and remove the class "active"
+  tablinks = document.getElementsByClassName("tablinks");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
+
+  // Show the current tab, and add an "active" class to the button that opened the tab
+  document.getElementById(tabName).style.display = "block";
+  evt.currentTarget.className += " active";
+}
+document.getElementById("defaultSpeed").style.color = "red";
+
+function changeSpeed(rate, event) {
+  document.querySelector("#speed-btn-group div").style.color = "#eee";
+  event.target.style.color = "red";
+  video.playbackRate = rate;
 }
