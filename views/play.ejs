@@ -102,8 +102,8 @@
                   <div class="quality p-4">
                     <b class="text-white d-block">video options</b>
                     <div class="p-2">
-                      <% data.map(item=> { %>
-                        <div class="link-btn d-block" onclick="changeLink(<%= JSON.stringify(item) %>)">
+                      <% data.map((item,index)=> { %>
+                        <div class="link-btn d-block video-link" id="<%= index==0 ? "videoSelected" :"" %>" onclick="changeLink(<%= JSON.stringify(item) %>,event)">
                           <%= item.video[0].resolution + "p - " + item.video[0].language %>
                         </div>
                         <% }) %>
@@ -116,33 +116,33 @@
                   <div class="speed p-4">
                     <b class="text-white d-block">video speed</b>
                     <div class="p-2" id="speed-btn-group">
-                      <div class="link-btn d-block" style="background-color: inherit;"
+                      <div class="link-btn d-block speed-link" style="background-color: inherit;"
                         onclick="changeSpeed(0.25,event)">
                         0.25x
                       </div>
-                      <div class="link-btn d-block" style="background-color: inherit;" onclick="changeSpeed(0.5,event)">
+                      <div class="link-btn d-block speed-link" style="background-color: inherit;" onclick="changeSpeed(0.5,event)">
                         0.5x
                       </div>
-                      <div class="link-btn d-block" style="background-color: inherit;"
+                      <div class="link-btn d-block speed-link" style="background-color: inherit;"
                         onclick="changeSpeed(0.75,event)">
                         0.75x
                       </div>
-                      <div class="link-btn d-block" id="defaultSpeed" style="background-color: inherit;"
+                      <div class="link-btn d-block speed-link" id="defaultSpeed" style="background-color: inherit;"
                         onclick="changeSpeed(1,event)">
                         Normal
                       </div>
-                      <div class="link-btn d-block" style="background-color: inherit;"
+                      <div class="link-btn d-block speed-link" style="background-color: inherit;"
                         onclick="changeSpeed(1.25,event)">
                         1.25x
                       </div>
-                      <div class="link-btn d-block" style="background-color: inherit;" onclick="changeSpeed(1.5,event)">
+                      <div class="link-btn d-block speed-link" style="background-color: inherit;" onclick="changeSpeed(1.5,event)">
                         1.5x
                       </div>
-                      <div class="link-btn d-block" style="background-color: inherit;"
+                      <div class="link-btn d-block speed-link" style="background-color: inherit;"
                         onclick="changeSpeed(1.75,event)">
                         1.75x
                       </div>
-                      <div class="link-btn d-block" style="background-color: inherit;" onclick="changeSpeed(2,event)">
+                      <div class="link-btn d-block speed-link" style="background-color: inherit;" onclick="changeSpeed(2,event)">
                         2x
                       </div>
 
@@ -169,6 +169,8 @@
           <small style="color: #eee">
             <%= data[0].overview %>
           </small>
+          <a class="btn btn-primary mt-3 d-block" href="intent:<%=data[0].video[0].href %>#Intent;package=com.mxtech.videoplayer.ad;S.title=<%=data[0].title.replaceAll(" ","%20") %>%20-%20<%=data[0].video[0].resolution %>p%20<%=data[0].video[0].language.replaceAll(" ","%20") %>;end">watch in MX Player</a>
+          <strong class="text-white mt-2 d-block">*you should have mx player installed to watch this movie in mx player</strong>
         </div>
       </div>
     </section>

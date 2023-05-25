@@ -169,7 +169,7 @@ video {
   color: gainsboro;
   text-transform: capitalize;
   margin-bottom: 5px;
-  background-color: #0d0d5c;
+  background: #0d0d5c;
   border-radius: 3px;
 }
 

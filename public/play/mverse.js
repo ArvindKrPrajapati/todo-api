@@ -187,8 +187,13 @@ video.onwaiting = function () {
   loader.style.display = "block";
 };
 
-function changeLink(item) {
+function changeLink(item,event) {
   loader_container.style.background = "black";
+  const link_btn = document.getElementsByClassName("video-link");
+  for (let i = 0; i < link_btn.length; i++) {
+    link_btn[i].style.background = "#0d0d5c";
+  }
+  event.target.style.background = "red";
   const ct = video.currentTime;
   const s = item.video[0].href;
   const videoSource = document.querySelector("#video-source");
@@ -223,9 +228,14 @@ function openTab(evt, tabName) {
   evt.currentTarget.className += " active";
 }
 document.getElementById("defaultSpeed").style.color = "red";
+document.getElementById("videoSelected").style.background = "red";
 
 function changeSpeed(rate, event) {
   document.querySelector("#speed-btn-group div").style.color = "#eee";
+  const link_btn = document.getElementsByClassName("speed-link");
+  for (let i = 0; i < link_btn.length; i++) {
+    link_btn[i].style.color = "gainsboro";
+  }
   event.target.style.color = "red";
   video.playbackRate = rate;
 }
