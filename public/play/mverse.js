@@ -188,6 +188,9 @@ video.onwaiting = function () {
 };
 
 function changeLink(item,event) {
+  const s = item.video[0].href;
+  const mx_link = document.querySelector("#mx-link");
+ mx_link.href=`intent:${s}#Intent;package=com.mxtech.videoplayer.ad;end`
   loader_container.style.background = "black";
   const link_btn = document.getElementsByClassName("video-link");
   for (let i = 0; i < link_btn.length; i++) {
@@ -195,7 +198,6 @@ function changeLink(item,event) {
   }
   event.target.style.background = "red";
   const ct = video.currentTime;
-  const s = item.video[0].href;
   const videoSource = document.querySelector("#video-source");
   videoSource.src = s;
   setTime(ct);

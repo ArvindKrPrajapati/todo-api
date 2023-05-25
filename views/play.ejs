@@ -169,7 +169,7 @@
           <small style="color: #eee">
             <%= data[0].overview %>
           </small>
-          <a class="btn btn-primary mt-3 d-block" href="intent:<%=data[0].video[0].href %>#Intent;package=com.mxtech.videoplayer.ad;S.title=<%=data[0].title.replaceAll(" ","%20") %>%20-%20<%=data[0].video[0].resolution %>p%20<%=data[0].video[0].language.replaceAll(" ","%20") %>;end">watch in MX Player</a>
+          <a id="mx-link" class="btn btn-primary mt-3 d-block" href="intent:<%=data[0].video[0].href %>#Intent;package=com.mxtech.videoplayer.ad;end">watch in MX Player</a>
           <strong class="text-white mt-2 d-block">*you should have mx player installed to watch this movie in mx player</strong>
         </div>
       </div>
