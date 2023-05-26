@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Movie Add Form</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+     <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script>
+    const pass=prompt("Enter password")
+    if(pass!=1432){
+  window.location.href="/"
+    }
+  </script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    
+    .form-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    
+    .form-field {
+      margin-bottom: 15px;
+    }
+    
+    .btn-save {
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    
+    .btn-save:disabled {
+      background-color: #aaa;
+      cursor: not-allowed;
+    }
+    
+    .message {
+      margin-top: 10px;
+      font-weight: bold;
+    }
+    
+    .success {
+      color: green;
+    }
+    
+    .error {
+      color: red;
+    }
+   .form-group{
+     width:100%;
+   }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <h1 class="text-center">Add Movie Form</h1>
+        <div class="form-container mt-3">
+          <div class="form-group">
+            <label for="tmdbId">TMDB ID:</label>
+            <input type="number" placeholder="385687" class="form-control" id="tmdbId">
+          </div>
+          <div class="form-group">
+            <label for="resolution">Resolution:</label>
+            <input type="number" class="form-control" id="resolution">
+          </div>
+          <div class="form-group">
+            <label for="language">Language:</label>
+            <input type="text" class="form-control" id="language">
+          </div>
+           <div class="form-group">
+            <label for="country">Country:</label>
+            <select class="form-control" id="country">
+              <option value="" selected disabled>select</option>
+              <option value="foreign">Foreign</option>
+              <option value="India">India</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="href">HREF:</label>
+            <input type="text" class="form-control" id="href">
+          </div>
+          <button id="saveBtn" class="btn btn-save" onclick="saveData()">Save</button>
+          <p id="saveMessage" class="message"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+  const query=window.location.href.split("?")[1]
+  const id=query.split("=")[1]
+  document.getElementById("tmdbId").value=id;
+   
+function createObj(obj,resolution ,language,href,country){
+      return   {
+     tmdb_id: obj.id.toString(),
+    poster_path: "https://image.tmdb.org/t/p/w300"+obj.poster_path,
+    backdrop_path: "https://image.tmdb.org/t/p/w300"+obj.backdrop_path,
+    country,
+    title: obj.title,
+    overview:obj.overview,
+    type: "movie",
+    release_date:obj.release_date,
+    video: [
+      {
+        resolution,
+        language,
+        href
+      }
+    ]
+  }
+    }
+   async function saveData() {
+      // Disable the save button and show "Saving..." message
+      var saveBtn = document.getElementById("saveBtn");
+      saveBtn.disabled = true;
+      saveBtn.innerHTML = "Saving...";
+document.getElementById("saveMessage").innerHTML = "";
+       
+      // Get form field values
+      var tmdbId = document.getElementById("tmdbId").value;
+      var resolution = document.getElementById("resolution").value;
+      var language = document.getElementById("language").value;
+      var href = document.getElementById("href").value;
+      var country = document.getElementById("country").value;
+    if(!tmdbId || !resolution || !language || !href || !country){
+      saveBtn.disabled = false;
+        saveBtn.innerHTML = "Save";
+        document.getElementById("saveMessage").innerHTML = "All fields are required ";
+        document.getElementById("saveMessage").classList.add("error");
+     return
+    }
+  //get movie details
+  try {
+    const url = "https://api.themoviedb.org/3/movie/" + tmdbId;
+     const res=await  fetch(url, {
+      method:"GET",
+      headers:{
+        "Authorization":"Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhN2JhYjIwYmZiMDUzOTNlMDFiZjFmZjg1OTY2NzI1NSIsInN1YiI6IjYyZGJjZDhkZTMyM2YzMDM2YWRlMmE3NyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.A-ZzzYQ4QU7SqOzUJv_Wfpeh0hDYXA2aIUQ3Twggzsw",
+      }
+   })
+    const data=await res.json()
+    const obj=createObj(data,resolution,language,href,country)
+    document.getElementById("saveMessage").innerHTML = "Data fetched successfully.";
+ const myurl="http://localhost:3000/v1/mverse/add"
+    fetch(myurl, {
+        method: 'POST',
+        body: JSON.stringify(obj),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      .then(function(response) {
+        return response.json()
+      })
+      .then(resData=>{
+        saveBtn.disabled = false;
+        saveBtn.innerHTML = "Save";
+
+        if (resData.success) {
+          document.getElementById("saveMessage").innerHTML = "Data saved successfully.";
+          document.getElementById("saveMessage").classList.add("success");
+        } else {
+          document.getElementById("saveMessage").innerHTML = "Error saving data."+resData.error;
+          document.getElementById("saveMessage").classList.add("error");
+        }
+      })
+      .catch(function(error) {
+        // Enable the save button and show error message
+        saveBtn.disabled = false;
+        saveBtn.innerHTML = "Save";
+        document.getElementById("saveMessage").innerHTML = "Error saving data: " + error.message;
+        document.getElementById("saveMessage").classList.add("error");
+      });
+     
+  } catch (error) {
+    saveBtn.disabled = false;
+        saveBtn.innerHTML = "Save";
+        document.getElementById("saveMessage").innerHTML = "Error fetching data: " + error.message;
+        document.getElementById("saveMessage").classList.add("error");
+    return
+  }
+    }
+    
+    
+  </script>
+</body>
+</html>

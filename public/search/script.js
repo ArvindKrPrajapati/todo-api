@@ -12,14 +12,16 @@ const searchMovie = async (e) => {
       if (data.success) {
         if (data.data.length) {
           data.data.map((item) => {
-            h += `<a href="/play/${item.tmdb_id}" class="d-flex mb-2 content">
-      <img src="${item.poster_path}" class="img"/>
-      <div class="p-3">
+            h += `<div class="d-flex mb-2 content">
+    <a href="/add?tmdb_id=${item.tmdb_id}" >
+      <img id="lp" src="${item.poster_path}" class="img"/>
+     </a>
+      <a href="/play/${item.tmdb_id}"  class="p-3">
       <h3 style="color:gainsboro">${item.title}</h3>
       <small style="color:silver" class="text">${item.release_date}</small>
       <small style="color:grey" class="text">${item.overview}</small>
-      </div>
-      </a>`;
+      </a>
+      </div>`;
           });
           document.querySelector("#main").innerHTML = h;
         } else {
@@ -34,3 +36,6 @@ const searchMovie = async (e) => {
     console.log(error);
   }
 };
+
+
+
