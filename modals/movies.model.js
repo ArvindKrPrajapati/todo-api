@@ -38,7 +38,7 @@ const schema = new mongoose.Schema(
     },
     video: [
       {
-        resolution: Number,
+        resolution: String,
         language: String,
         href: String,
         href_two: String,
