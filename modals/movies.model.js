@@ -40,6 +40,8 @@ const schema = new mongoose.Schema(
       {
         resolution: String,
         language: String,
+        source:String,
+        size:String,
         href: String,
         href_two: String,
       },
