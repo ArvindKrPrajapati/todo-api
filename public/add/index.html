@@ -149,7 +149,7 @@ document.getElementById("saveMessage").innerHTML = "";
     const data=await res.json()
     const obj=createObj(data,resolution,language,href,country)
     document.getElementById("saveMessage").innerHTML = "Data fetched successfully.";
- const myurl="http://localhost:3000/v1/mverse/add"
+ const myurl="https://mytodo-api.cyclic.app/v1/mverse/add"
     fetch(myurl, {
         method: 'POST',
         body: JSON.stringify(obj),
