@@ -104,7 +104,7 @@
                     <div class="p-2">
                       <% data.map((item,index)=> { %>
                         <div class="link-btn d-block video-link" id="<%= index==0 ? "videoSelected" :"" %>" onclick="changeLink(<%= JSON.stringify(item) %>,event)">
-                          <%= item.video[0].resolution + "p - " + item.video[0].language %>
+                          <%= item.video[0].resolution +" " + item.video[0].language +" "+item.video[0].source%>
                         </div>
                         <% }) %>
 

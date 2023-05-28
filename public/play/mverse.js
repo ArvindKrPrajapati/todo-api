@@ -16,6 +16,13 @@ const aspect_ratio = document.querySelector("#aspect-ratio");
 const settingbtn = document.querySelector("#setting");
 const options = document.querySelector("#options");
 
+function waitAndHide(t){
+  const timeout=setTimeout(function() {
+  overlay.style.visibility = "hidden";
+    clearTimeout(timeout)
+  }, t);
+}
+waitAndHide(5000)
 video.addEventListener("error", function (event) {
   alert(event.target.error);
 });
@@ -176,6 +183,7 @@ overlay.addEventListener("click", () => {
 
 loader_container.addEventListener("click", () => {
   overlay.style.visibility = "visible";
+  waitAndHide(4000)
 });
 
 video.addEventListener("canplay", function () {
