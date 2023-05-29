@@ -81,9 +81,11 @@ placeholder="search movies"
 
 <% indianMovie.map((item) => {
 %>
-<a href="/play/<%= item.tmdb_id %>" class="my-card">
+
+  <a href="/play/<%= item.tmdb_id %>" class="my-card">
 <img src="<%= item.poster_path %>" class="my-card-img" />
 </a>
+
 <%
 }); %>
 

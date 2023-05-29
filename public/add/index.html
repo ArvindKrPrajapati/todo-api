@@ -69,11 +69,19 @@
           </div>
           <div class="form-group">
             <label for="resolution">Resolution:</label>
-            <input type="number" class="form-control" id="resolution">
+            <input type="text" class="form-control" id="resolution">
           </div>
           <div class="form-group">
             <label for="language">Language:</label>
             <input type="text" class="form-control" id="language">
+          </div>
+          <div class="form-group">
+            <label for="size">size</label>
+            <input type="text" class="form-control" id="size">
+          </div>
+          <div class="form-group">
+            <label for="source">Source:</label>
+            <input type="text" class="form-control" id="source">
           </div>
            <div class="form-group">
             <label for="country">Country:</label>
@@ -98,7 +106,7 @@
   const id=query.split("=")[1]
   document.getElementById("tmdbId").value=id;
    
-function createObj(obj,resolution ,language,href,country){
+function createObj(obj,resolution ,language,href,country,size,source){
       return   {
      tmdb_id: obj.id.toString(),
     poster_path: "https://image.tmdb.org/t/p/w300"+obj.poster_path,
@@ -110,6 +118,8 @@ function createObj(obj,resolution ,language,href,country){
     release_date:obj.release_date,
     video: [
       {
+        size,
+        source,
         resolution,
         language,
         href
@@ -130,7 +140,9 @@ document.getElementById("saveMessage").innerHTML = "";
       var language = document.getElementById("language").value;
       var href = document.getElementById("href").value;
       var country = document.getElementById("country").value;
-    if(!tmdbId || !resolution || !language || !href || !country){
+      var size = document.getElementById("size").value;
+      var source = document.getElementById("source").value;
+    if(!tmdbId || !resolution || !language || !href || !country || !size || !source){
       saveBtn.disabled = false;
         saveBtn.innerHTML = "Save";
         document.getElementById("saveMessage").innerHTML = "All fields are required ";
@@ -147,7 +159,7 @@ document.getElementById("saveMessage").innerHTML = "";
       }
    })
     const data=await res.json()
-    const obj=createObj(data,resolution,language,href,country)
+    const obj=createObj(data,resolution,language,href,country,size,source)
     document.getElementById("saveMessage").innerHTML = "Data fetched successfully.";
  const myurl="https://mytodo-api.cyclic.app/v1/mverse/add"
     fetch(myurl, {
