@@ -15,7 +15,7 @@ const html = require("./routes/html/movies.routes");
 // middleware
 const authlogin = require("./middleware/auth.middleware");
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 app.use(express.static("public"));
 app.set("view engine", "ejs"); // Set EJS as the view engine
 app.set("views", path.join(__dirname, "views")); // Set the views directory

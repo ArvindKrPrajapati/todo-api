@@ -1,30 +1,38 @@
-
-
 @import url("../global.css");
 
-#loader{
+#loader {
   height: 50%;
 }
-#title{
+#title {
   text-transform: capitalize;
 }
-.my-grid{
+.my-grid {
   display: flex;
   flex-wrap: wrap;
 }
-.my-card{
+.my-card {
   width: calc(11% - 11px);
   margin: 5px 6px;
   overflow: hidden;
-}
-.my-card-img{
-  width:100%;
   height: 100%;
+  text-decoration: none;
+  background-color: #100d3a;
   border-radius: 8px;
 }
-
+.card-title {
+  overflow: hidden;
+  width: 100%;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  color: gainsboro;
+}
+.my-card-img {
+  width: 100%;
+  height: 100%;
+}
 @media screen and (max-width: 700px) {
- .my-card{
-  width: calc(33% - 11px);
- }
+  .my-card {
+    width: calc(33% - 11px);
+  }
 }
