@@ -103,7 +103,7 @@
                     <b class="text-white d-block">video options</b>
                     <div class="p-2">
                       <% data.map((item,index)=> { %>
-                        <div class="link-btn d-block video-link" id="<%= index==0 ? " videoSelected" :"" %>"
+                        <div class="link-btn d-block video-link" id="<%= index==0 ? "videoSelected" :"" %>"
                           onclick="changeLink(<%= JSON.stringify(item) %>,event)">
                             <%= item.video[0].resolution +" " + item.video[0].language +" "+item.video[0].source%>
                         </div>
@@ -113,7 +113,7 @@
                   </div>
                 </div>
 
-                <div id=" speed" class="tabcontent">
+                <div id="speed" class="tabcontent">
                               <div class="speed p-4">
                                 <b class="text-white d-block">video speed</b>
                                 <div class="p-2" id="speed-btn-group">
