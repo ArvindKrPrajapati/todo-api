@@ -36,18 +36,23 @@
     <main id="main" class="my-grid">
       <% data.map((item)=> {
         %>
-        <a href="/play/<%= item.tmdb_id %>" class="my-card">
-          <img src="<%= item.poster_path %>" class="my-card-img" />
-          <div class="p-1">
-            <small class="card-title">
-              <%= item.title %>
-            </small>
-            <small class="card-title">
-              <%= new Date(item.release_date).getFullYear() %>
-            </small>
-          </div>
-        </a>
-        <% }); %>
+        <% if (item.type==='tv' ) { %>
+          <a href="/play/<%= item.tmdb_id %>/<%= item.season %>/<%= item.episode %>" class="my-card">
+            <% } else { %>
+              <a href="/play/<%= item.tmdb_id %>" class="my-card">
+                <% } %>
+
+                  <img src="<%= item.poster_path %>" class="my-card-img" />
+                  <div class="p-1">
+                    <small class="card-title">
+                      <%= item.title %>
+                    </small>
+                    <small class="card-title">
+                      <%= new Date(item.release_date).getFullYear() %> (<%= item.type %>)
+                    </small>
+                  </div>
+              </a>
+              <% }); %>
     </main>
     <div id="pagination">
       <div class="mt-5" style="margin: auto;">

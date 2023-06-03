@@ -44,8 +44,15 @@
                 <img src="<%= item.poster_path %>" class="d-block o-img" alt="...">
                 <b>
                   <%= item.title %>
+                    (<%= item.type %>)
                 </b>
-                <a href="/play/<%= item.tmdb_id %>" class="btn btn-danger">Watch Now</a>
+                <% if (item.type==='tv' ) { %>
+                  <a href="/play/<%= item.tmdb_id %>/<%= item.season %>/<%= item.episode %>"
+                    class="btn btn-danger">Watch Now</a>
+                  <% } else { %>
+                    <a href="/play/<%= item.tmdb_id %>" class="btn btn-danger">Watch Now</a>
+                    <% } %>
+
               </div>
             </div>
             <img src="<%= item.backdrop_path %>" class="d-block w-100 c-img" alt="...">
@@ -100,6 +107,41 @@
 
       </div>
     </div>
+
+    <div class="p-3 mt-2">
+      <div class="heading">
+        <h3 class="text-white m-0">Indian Series</h3>
+        <a href="/discover/tv/India" class="btn">
+          <svg fill="white" width="24px" viewBox="0 0 24 24">
+            <title>chevron-triple-right</title>
+            <path
+              d="M14.58,16.59L19.17,12L14.58,7.41L16,6L22,12L16,18L14.58,16.59M8.58,16.59L13.17,12L8.58,7.41L10,6L16,12L10,18L8.58,16.59M2.58,16.59L7.17,12L2.58,7.41L4,6L10,12L4,18L2.58,16.59Z" />
+          </svg>
+        </a>
+      </div>
+      <hr class="text-white" />
+      <div class="my-grid indian">
+
+        <% indianTv.map((item)=> {
+          %>
+
+          <a href="/play/<%= item.tmdb_id %>/<%= item.season %>/<%= item.episode %>" class="my-card">
+            <img src="<%= item.poster_path %>" class="my-card-img" />
+            <div class="p-1">
+              <small class="card-title">
+                <%= item.title %>
+              </small>
+              <small class="card-title">
+                <%= new Date(item.release_date).getFullYear() %>
+              </small>
+            </div>
+          </a>
+
+          <% }); %>
+
+      </div>
+    </div>
+
     <div class="p-3 mt-2">
       <div class="heading">
         <h3 class="text-white m-0">Foreign Movies</h3>
@@ -119,6 +161,41 @@
         <% foreignMovie.map((item)=> {
           %>
           <a href="/play/<%= item.tmdb_id %>" class="my-card">
+            <img src="<%= item.poster_path %>" class="my-card-img" />
+            <div class="p-1">
+              <small class="card-title">
+                <%= item.title %>
+              </small>
+              <small class="card-title">
+                <%= new Date(item.release_date).getFullYear() %>
+              </small>
+            </div>
+          </a>
+          <% }); %>
+
+
+      </div>
+    </div>
+
+    <div class="p-3 mt-2">
+      <div class="heading">
+        <h3 class="text-white m-0">Foreign Series</h3>
+        <a href="/discover/tv/foreign" class="btn">
+          <svg fill="white" width="24px" viewBox="0 0 24 24">
+            <title>chevron-triple-right</title>
+            <path
+              d="M14.58,16.59L19.17,12L14.58,7.41L16,6L22,12L16,18L14.58,16.59M8.58,16.59L13.17,12L8.58,7.41L10,6L16,12L10,18L8.58,16.59M2.58,16.59L7.17,12L2.58,7.41L4,6L10,12L4,18L2.58,16.59Z" />
+          </svg>
+        </a>
+      </div>
+      <hr class="text-white" />
+      <div class="my-grid foreign">
+
+
+
+        <% foreignTv.map((item)=> {
+          %>
+          <a href="/play/<%= item.tmdb_id %>/<%= item.season %>/<%= item.episode %>" class="my-card">
             <img src="<%= item.poster_path %>" class="my-card-img" />
             <div class="p-1">
               <small class="card-title">

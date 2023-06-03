@@ -16,8 +16,13 @@ const searchMovie = async (e) => {
     <a href="/add?tmdb_id=${item.tmdb_id}" >
       <img id="lp" src="${item.poster_path}" class="img"/>
      </a>
-      <a href="/play/${item.tmdb_id}"  class="p-3">
-      <h3 style="color:gainsboro">${item.title}</h3>
+      <a href="/play/${item.tmdb_id}${
+              item.type == "tv" ? "/" + item.season + "/" + item.episode : ""
+            }"  class="p-3">
+      <h3 style="color:gainsboro;margin-bottom:0">${item.title}</h3>
+      <strong style="color:gainsboro;display:block ;text-transform:uppercase">${
+        item.type
+      }</strong>
       <small style="color:silver" class="text">${item.release_date}</small>
       <small style="color:grey" class="text">${item.overview}</small>
       </a>
@@ -25,9 +30,9 @@ const searchMovie = async (e) => {
           });
           document.querySelector("#main").innerHTML = h;
         } else {
-          document.querySelector("#main").innerHTML=`<div>
+          document.querySelector("#main").innerHTML = `<div>
                 <h4 style="color:silver">Not found</div>
-              </div>`
+              </div>`;
           console.log("nothing found");
         }
       }
@@ -36,6 +41,3 @@ const searchMovie = async (e) => {
     console.log(error);
   }
 };
-
-
-

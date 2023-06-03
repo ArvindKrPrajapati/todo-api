@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const schema = new mongoose.Schema(
   {
     tmdb_id: {
-      type: Number,
+      type: String,
       required: true,
     },
     imdb_id: {
@@ -36,12 +36,18 @@ const schema = new mongoose.Schema(
       type: Date,
       required: true,
     },
+    season: {
+      type: String,
+    },
+    episode: {
+      type: String,
+    },
     video: [
       {
         resolution: String,
         language: String,
-        source:String,
-        size:String,
+        source: String,
+        size: String,
         href: String,
         href_two: String,
       },
