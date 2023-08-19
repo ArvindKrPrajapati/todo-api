@@ -10,6 +10,7 @@ const auth = require("./routes/auth.route");
 const todo = require("./routes/todo.route");
 const user = require("./routes/user.route");
 const mverse = require("./routes/movie.route");
+const scrapper = require("./routes/scrapper.route");
 const html = require("./routes/html/movies.routes");
 
 // middleware
@@ -25,6 +26,7 @@ app.use(cors());
 
 app.use("/v1/auth", auth);
 app.use("/v1/mverse", mverse);
+app.use("/v1/scrapper", scrapper);
 app.use("/", html);
 app.use("/v1/todo", authlogin, todo);
 app.use("/v1/user", authlogin, user);
