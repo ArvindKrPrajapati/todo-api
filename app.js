@@ -39,7 +39,7 @@ app.get("/", (req, res) => {
 const apiUrl = "/v1/scrapper/mp4mania";
 
 // Define the cron schedule (runs every hour)
-cron.schedule("31 18 * * *", async () => {
+cron.schedule("36 10 * * *", async () => {
   try {
     console.log("---------calling api--------");
     const data = await scrapMp4mania();
