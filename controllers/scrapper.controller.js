@@ -93,39 +93,48 @@ const format = (data) => {
   return results;
 };
 
+const scrapMp4mania = async () => {
+  const data = [];
+  let available = true;
+  const cr = await scrapperModel.findOne({ name: "mp4mania" });
+  if (!cr) {
+    await scrapperModel.create({ name: "mp4mania", count: 1 });
+  }
+  let i = cr?.count || 1;
+  while (available) {
+    console.log("---------searching for id------ ", i);
+    const info = await extractInfo(i);
+    if (!info) {
+      available = false;
+      break;
+    }
+    data.push(info);
+    i++;
+  }
+  if (data.length === 0) {
+    return {
+      success: false,
+      error: "no movie found",
+    };
+  }
+
+  await scrapperModel.updateOne(
+    { name: "mp4mania" },
+    { count: i },
+    { upsert: true }
+  );
+  const result = format(data);
+  const response = await axios.post(up_url, { data: result });
+  return {
+    success: true,
+    data: response.data,
+  };
+};
+
 const scrapper = async (req, res) => {
   try {
-    const data = [];
-    let available = true;
-    const cr = await scrapperModel.findOne({ name: "mp4mania" });
-    if (!cr) {
-      await scrapperModel.create({ name: "mp4mania", count: 1 });
-    }
-    let i = cr?.count || 1;
-    while (available) {
-      console.log("---------searching for id------ ", i);
-      const info = await extractInfo(i);
-      if (!info) {
-        available = false;
-        break;
-      }
-      data.push(info);
-      i++;
-    }
-    if (data.length === 0) {
-      return res.status(500).json({
-        success: false,
-        error: "no movie found",
-      });
-    }
-    await scrapperModel.updateOne(
-      { name: "mp4mania" },
-      { count: i },
-      { upsert: true }
-    );
-    const result = format(data);
-    const response = await axios.post(up_url, { data: result });
-    return res.status(200).json(response.data);
+    const resp = await scrapMp4mania();
+    return res.json(resp);
   } catch (error) {
     console.log(error);
     return res.status(500).json({
@@ -137,4 +146,5 @@ const scrapper = async (req, res) => {
 
 module.exports = {
   scrapper,
+  scrapMp4mania,
 };
