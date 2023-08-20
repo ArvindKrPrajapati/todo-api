@@ -36,18 +36,18 @@ app.get("/", (req, res) => {
   res.status(200).json({ message: "welcome" });
 });
 
-const apiUrl = "/v1/scrapper/mp4mania";
+// const apiUrl = "/v1/scrapper/mp4mania";
 
-// Define the cron schedule (runs every hour)
-cron.schedule("36 10 * * *", async () => {
-  try {
-    console.log("---------calling api--------");
-    const data = await scrapMp4mania();
-    console.log("---------API call successful:", data);
-  } catch (error) {
-    console.error("-----------API call failed:", error.message);
-  }
-});
+// // Define the cron schedule (runs every hour)
+// cron.schedule("36 10 * * *", async () => {
+//   try {
+//     console.log("---------calling api--------");
+//     const data = await scrapMp4mania();
+//     console.log("---------API call successful:", data);
+//   } catch (error) {
+//     console.error("-----------API call failed:", error.message);
+//   }
+// });
 
 const init = async () => {
   try {
