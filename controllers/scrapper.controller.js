@@ -143,8 +143,23 @@ const scrapper = async (req, res) => {
     });
   }
 };
+// ----------------------------------------------------newtoxic.com-----------------------------------------------------
+
+const newToxic = async (req, res) => {
+  try {
+    // const resp = await scrapMp4mania();
+    return res.json({});
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      success: false,
+      error: "server error",
+    });
+  }
+};
 
 module.exports = {
   scrapper,
+  newToxic,
   scrapMp4mania,
 };
