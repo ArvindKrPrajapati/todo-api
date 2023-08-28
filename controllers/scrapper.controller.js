@@ -145,10 +145,107 @@ const scrapper = async (req, res) => {
 };
 // ----------------------------------------------------newtoxic.com-----------------------------------------------------
 
+const createCheerio = async (url) => {
+  const response = await axios.get(url);
+  const html = response.data;
+  return cheerio.load(html);
+};
+
+const extractEpisodes = async (detail) => {
+  const output = [];
+  const final=[]
+  await Promise.all(
+    detail.season.map(async (item) => {
+      const $ = await createCheerio(item.link);
+      const ep = [];
+      $("li").each((i, element) => {
+        $(element)
+          .find("p")
+          .each((index, el) => {
+            const obj = {};
+            if (index == 0) {
+              obj["name"] = $(el).text();
+              ep.push(obj);
+              final.push({
+                title:detail.title+" | "+item.name,
+                description:detail.description,
+                thumbnail:detail.thumbnail,
+                duration:0,
+                link:"/Tv%20Series/"+encodeURIComponent(detail.title)+"/"+encodeURIComponent(item.name),
+                name:obj.name
+              })
+            }
+          });
+      });
+      item["episodes"] = ep;
+      output.push(item);
+    })
+  );
+
+  return final;
+};
+
+const extractdetails = async (url) => {
+  // ---------extract links---------------
+  const data = [];
+  const $ = await createCheerio(url);
+  const links = $(`a`);
+  links.each((i, link) => {
+    const text = $(link).text();
+    const href = $(link).attr("href");
+
+    if (text && href.endsWith(".html")) {
+      data.push({ text, href });
+    }
+  });
+
+  // --------------extract details and season-------------------
+  const details = [];
+
+  await Promise.all(
+    data.map(async (item) => {
+      const obj = {};
+      const hrefObj = item.href.split("/");
+      const tld = item.href.split(":")[0] + "://" + hrefObj[2];
+
+      let $ = await createCheerio(item.href);
+      $("p").each((i, element) => {
+        const text = $(element).text().trim();
+        const imgSrc = $(element).find("img").attr("src");
+        if (i == 0) obj["title"] = text;
+        if (i == 1) obj["thumbnail"] = tld + imgSrc.replaceAll(" ", "%20");
+        if (i == 2) obj["description"] = text;
+      });
+      const season = [];
+      $("li").each((i, element) => {
+        const s = {};
+        s["link"] = tld + $(element).find("a").attr("href");
+        s["name"] = $(element).text();
+        s.name && season.push(s);
+      });
+      obj["season"] = season;
+      details.push(obj);
+    })
+  );
+
+  // -----------------------------extract episodes-------------------------
+  let output = [];
+  await Promise.all(
+    details.map(async (detail) => {
+      const ep = await extractEpisodes(detail);
+      detail["season"] = ep;
+      // output.push(detail);
+      output=[...output,...ep]
+    })
+  );
+  return output;
+};
+
+
 const newToxic = async (req, res) => {
   try {
-    // const resp = await scrapMp4mania();
-    return res.json({});
+    const data = await extractdetails("https://newtoxic.com/TV_Series/a.php");
+    return res.json({total:data.length,data});
   } catch (error) {
     console.log(error);
     return res.status(500).json({
