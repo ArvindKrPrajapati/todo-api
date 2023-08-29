@@ -145,107 +145,72 @@ const scrapper = async (req, res) => {
 };
 // ----------------------------------------------------newtoxic.com-----------------------------------------------------
 
-const createCheerio = async (url) => {
-  const response = await axios.get(url);
-  const html = response.data;
-  return cheerio.load(html);
-};
+const puppeteer = require("puppeteer");
 
-const extractEpisodes = async (detail) => {
-  const output = [];
-  const final=[]
-  await Promise.all(
-    detail.season.map(async (item) => {
-      const $ = await createCheerio(item.link);
-      const ep = [];
-      $("li").each((i, element) => {
-        $(element)
-          .find("p")
-          .each((index, el) => {
-            const obj = {};
-            if (index == 0) {
-              obj["name"] = $(el).text();
-              ep.push(obj);
-              final.push({
-                title:detail.title+" | "+item.name,
-                description:detail.description,
-                thumbnail:detail.thumbnail,
-                duration:0,
-                link:"/Tv%20Series/"+encodeURIComponent(detail.title)+"/"+encodeURIComponent(item.name),
-                name:obj.name
-              })
-            }
-          });
-      });
-      item["episodes"] = ep;
-      output.push(item);
-    })
-  );
+async function captureResponseUrls(id) {
+  const browser = await puppeteer.launch();
+  const page = await browser.newPage();
 
-  return final;
-};
+  await page.setRequestInterception(true);
 
-const extractdetails = async (url) => {
-  // ---------extract links---------------
-  const data = [];
-  const $ = await createCheerio(url);
-  const links = $(`a`);
-  links.each((i, link) => {
-    const text = $(link).text();
-    const href = $(link).attr("href");
-
-    if (text && href.endsWith(".html")) {
-      data.push({ text, href });
-    }
+  page.on("request", (request) => {
+    request.continue();
   });
 
-  // --------------extract details and season-------------------
-  const details = [];
+  const responseUrls = [];
 
-  await Promise.all(
-    data.map(async (item) => {
-      const obj = {};
-      const hrefObj = item.href.split("/");
-      const tld = item.href.split(":")[0] + "://" + hrefObj[2];
+  page.on("response", (response) => {
+    const url = response.url();
+    responseUrls.push(url);
+  });
+  const url = "https://newtoxic.com/areyouhuman5.php?fid=" + id;
+  await page.goto(url);
 
-      let $ = await createCheerio(item.href);
-      $("p").each((i, element) => {
-        const text = $(element).text().trim();
-        const imgSrc = $(element).find("img").attr("src");
-        if (i == 0) obj["title"] = text;
-        if (i == 1) obj["thumbnail"] = tld + imgSrc.replaceAll(" ", "%20");
-        if (i == 2) obj["description"] = text;
-      });
-      const season = [];
-      $("li").each((i, element) => {
-        const s = {};
-        s["link"] = tld + $(element).find("a").attr("href");
-        s["name"] = $(element).text();
-        s.name && season.push(s);
-      });
-      obj["season"] = season;
-      details.push(obj);
-    })
-  );
+  await page.click('input[type="submit"]');
+  await page.waitForTimeout(3000);
+  await browser.close();
 
-  // -----------------------------extract episodes-------------------------
-  let output = [];
-  await Promise.all(
-    details.map(async (detail) => {
-      const ep = await extractEpisodes(detail);
-      detail["season"] = ep;
-      // output.push(detail);
-      output=[...output,...ep]
-    })
-  );
-  return output;
-};
-
+  return responseUrls.find((item) => item.endsWith(".mp4"));
+}
 
 const newToxic = async (req, res) => {
+  const mverseSeriesId = "64edf524bf67ccb6eb18373e";
   try {
-    const data = await extractdetails("https://newtoxic.com/TV_Series/a.php");
-    return res.json({total:data.length,data});
+    const data = [];
+    const length = 100;
+    // const start = 436412;
+    // ho gya 435890
+    const start = 435700;
+    const end = start + length;
+    for (let i = start; i < end; i++) {
+      const url = await captureResponseUrls(i);
+      console.log({ i,url,count:i-start+1 });
+
+      const name = url.split("/")[5];
+      // regex to find S01E01
+      const pattern = /S\d+E\d+/;
+      const se = url.toUpperCase().match(pattern);
+      // regex to find season number and episode number
+      const regex = /S(\d+)E(\d+)/i;
+      const match = se[0].match(regex);
+      const season = match[1];
+      const episode = match[2];
+
+      data.push({
+        id: i,
+        title: decodeURIComponent(name) +" | season "+season+" | episode "+episode,
+        link: url || "NA",
+        thumbnail: "https://newtoxic.com/cms/sub_thumb/" + name + ".jpg",
+        description: se[0],
+        duration: 0,
+        by: mverseSeriesId,
+      });
+    }
+
+    // upload to db
+    console.log("---uploading to db---");
+    const response = await axios.post(up_url, { data });
+    return res.json({ length:data.length,data:response.data });
   } catch (error) {
     console.log(error);
     return res.status(500).json({
