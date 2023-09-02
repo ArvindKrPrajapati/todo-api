@@ -26,7 +26,7 @@ const extractInfo = async (_id) => {
 
       const descText = $(desc).text();
       const desc_arr = descText.split(seprator);
-      info_dict["thumbnail"] = "https:" + thumbnail;
+      info_dict["thumbnail"] =thumbnail.startsWith("https") ? thumbnail: "https:" + thumbnail;
       info_dict[desc_arr[0].trim().replace(" ", "_")] = desc_arr[1].trim();
     });
 
@@ -180,12 +180,14 @@ const newToxic = async (req, res) => {
     const length = 100;
     // const start = 436412;
     // ho gya 435890
-    const start = 435700;
+    const start = 435200;
     const end = start + length;
     for (let i = start; i < end; i++) {
       const url = await captureResponseUrls(i);
       console.log({ i,url,count:i-start+1 });
-
+      if(!url){
+        continue
+      }
       const name = url.split("/")[5];
       // regex to find S01E01
       const pattern = /S\d+E\d+/;
