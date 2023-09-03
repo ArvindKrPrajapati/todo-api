@@ -26,7 +26,9 @@ const extractInfo = async (_id) => {
 
       const descText = $(desc).text();
       const desc_arr = descText.split(seprator);
-      info_dict["thumbnail"] =thumbnail.startsWith("https") ? thumbnail: "https:" + thumbnail;
+      info_dict["thumbnail"] = thumbnail.startsWith("https")
+        ? thumbnail
+        : "https:" + thumbnail;
       info_dict[desc_arr[0].trim().replace(" ", "_")] = desc_arr[1].trim();
     });
 
@@ -173,46 +175,66 @@ async function captureResponseUrls(id) {
   return responseUrls.find((item) => item.endsWith(".mp4"));
 }
 
-const newToxic = async (req, res) => {
+const scrapNewToxic = async () => {
   const mverseSeriesId = "64edf524bf67ccb6eb18373e";
-  try {
-    const data = [];
-    const length = 100;
-    // const start = 436412;
-    // ho gya 435890
-    const start = 435200;
-    const end = start + length;
-    for (let i = start; i < end; i++) {
-      const url = await captureResponseUrls(i);
-      console.log({ i,url,count:i-start+1 });
-      if(!url){
-        continue
-      }
-      const name = url.split("/")[5];
-      // regex to find S01E01
-      const pattern = /S\d+E\d+/;
-      const se = url.toUpperCase().match(pattern);
-      // regex to find season number and episode number
-      const regex = /S(\d+)E(\d+)/i;
-      const match = se[0].match(regex);
-      const season = match[1];
-      const episode = match[2];
+  const name = "newtoxic";
+  const cr = await scrapperModel.findOne({ name });
+  if (!cr) {
+    await scrapperModel.create({ name, count: 1 });
+  }
+  const data = [];
 
-      data.push({
-        id: i,
-        title: decodeURIComponent(name) +" | season "+season+" | episode "+episode,
-        link: url || "NA",
-        thumbnail: "https://newtoxic.com/cms/sub_thumb/" + name + ".jpg",
-        description: se[0],
-        duration: 0,
-        by: mverseSeriesId,
-      });
+  const length = 100;
+  const start = cr?.count || 434900;
+  const end = start + length;
+
+  // const start = 436412;
+
+  for (let i = start; i < end; i++) {
+    const url = await captureResponseUrls(i);
+    console.log({ i, url, count: i - start + 1 });
+    if (!url) {
+      continue;
     }
+    const name = url.split("/")[5];
+    // regex to find S01E01
+    const pattern = /S\d+E\d+/;
+    const se = url.toUpperCase().match(pattern);
+    // regex to find season number and episode number
+    const regex = /S(\d+)E(\d+)/i;
+    const match = se[0].match(regex);
+    const season = match[1];
+    const episode = match[2];
 
-    // upload to db
-    console.log("---uploading to db---");
-    const response = await axios.post(up_url, { data });
-    return res.json({ length:data.length,data:response.data });
+    data.push({
+      id: i,
+      title:
+        decodeURIComponent(name) +
+        " | season " +
+        season +
+        " | episode " +
+        episode,
+      link: url || "NA",
+      thumbnail: "https://newtoxic.com/cms/sub_thumb/" + name + ".jpg",
+      description: se[0],
+      duration: 0,
+      by: mverseSeriesId,
+    });
+  }
+
+  // upload to db
+  console.log("---uploading to db---");
+  const response = await axios.post(up_url, { data });
+
+  // updating count
+  const count = start - length;
+  await scrapperModel.updateOne({ name }, { count }, { upsert: true });
+  return { length: data.length, data: response.data };
+};
+const newToxic = async (req, res) => {
+  try {
+    const data = await scrapNewToxic();
+    return res.json(data);
   } catch (error) {
     console.log(error);
     return res.status(500).json({
@@ -226,4 +248,5 @@ module.exports = {
   scrapper,
   newToxic,
   scrapMp4mania,
+  scrapNewToxic,
 };

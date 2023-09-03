@@ -15,7 +15,10 @@ const html = require("./routes/html/movies.routes");
 
 // middleware
 const authlogin = require("./middleware/auth.middleware");
-const { scrapMp4mania } = require("./controllers/scrapper.controller");
+const {
+  scrapMp4mania,
+  scrapNewToxic,
+} = require("./controllers/scrapper.controller");
 
 const PORT = process.env.PORT || 3000;
 app.use(express.static("public"));
@@ -49,10 +52,25 @@ app.get("/", (req, res) => {
 //   }
 // });
 
+const scrap = async () => {
+  try {
+    let length = 0;
+    do {
+      const data = await scrapNewToxic();
+      length = data.length;
+    } while (length > 0);
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
 const init = async () => {
   try {
     await mongoose.connect(process.env.URL);
-    app.listen(PORT, () => console.log("server is listening at PORT " + PORT));
+    app.listen(PORT, () => {
+      console.log("Server is listening at PORT " + PORT);
+      scrap();
+    });
   } catch (error) {
     console.log(error);
   }
