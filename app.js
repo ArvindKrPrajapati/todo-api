@@ -52,24 +52,23 @@ app.get("/", (req, res) => {
 //   }
 // });
 
-const scrap = async () => {
-  try {
-    let length = 0;
-    do {
-      const data = await scrapNewToxic();
-      length = data.length;
-    } while (length > 0);
-  } catch (error) {
-    console.log(error.message);
-  }
-};
+// const scrap = async () => {
+//   try {
+//     let length = 0;
+//     do {
+//       const data = await scrapNewToxic();
+//       length = data.length;
+//     } while (length > 0);
+//   } catch (error) {
+//     console.log(error.message);
+//   }
+// };
 
 const init = async () => {
   try {
     await mongoose.connect(process.env.URL);
     app.listen(PORT, () => {
       console.log("Server is listening at PORT " + PORT);
-      scrap();
     });
   } catch (error) {
     console.log(error);
